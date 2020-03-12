@@ -28,10 +28,12 @@ COLLABORATOR_SETTINGS_FUNCTIONS = {
     }
 
     let settingsCourseData = await APP.API.loadSettingsCourse(APP.userId, APP.courseId);
-    if (settingsCourseData !== undefined && settingsCourseData !== null) {
+    if (settingsCourseData !== undefined) {
       let settingsCourse = settingsCourseData.data; 
-      if (settingsCourse.openTabs !== undefined && settingsCourse.openTabs !== '') {
-        APP.openTabs = settingsCourse.openTabs;
+      if (settingsCourse !== null) {
+        if (settingsCourse.openTabs !== undefined && settingsCourse.openTabs !== '') {
+          APP.openTabs = settingsCourse.openTabs;
+        }
       }
     }
   }

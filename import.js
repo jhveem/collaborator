@@ -20,6 +20,7 @@ async function _init() {
   await $.get('https://jhveem.xyz/collaborator/CourseView.html', null, function(html) {
     vueString = html;
   }, 'text');
+  console.log(vueString);
   //SET UP THE PAGE
   let canvasbody = $("#application");
   //Look at doing an html import using https://www.w3schools.com/howto/howto_html_include.asp

@@ -1,5 +1,5 @@
 MONTH_NAMES_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"];
-let vueString = `<div id="vue-app">
+let vueStringOld = `<div id="vue-app">
   <div>
   <i class="icon-settings" style="float: right; margin-right: 20px; padding-top: 10px; cursor: pointer;" @click="openModal('settings');"></i>
   <h3 class="collaborator-menu-header">{{header}}</h3>
@@ -94,19 +94,7 @@ let vueString = `<div id="vue-app">
   </div> 
 </div>`
 +``;
-let canvasbody = $("#application");
-//Look at doing an html import using https://www.w3schools.com/howto/howto_html_include.asp
-//This could be useful once it's life and it's no longer more convenient to have auto updates from tampermonkey
-//OR once it's all hosted on my site and on github, then updates will be instant as well
-canvasbody.after('<div id="canvas-collaborator-container"></div>');
-$('#left-side').append("<a id='canvas-collaborator-toggler' class='btn'>Collaborator</a>")
-$("#canvas-collaborator-toggler").click(function() {
-  APP.toggleWindow();
-});
-$("#canvas-collaborator-container").hide();
-//$('#main').css("margin-right", "300px");
-//$('#main').append('<div id="canvas-collaborator-container" style="display: block; position: absolute; top: 0%; right: -300px; width: 300px;"></div>');
-$("#canvas-collaborator-container").append(vueString);
+
 APP = new Vue({
   el: '#vue-app',
   mounted: async function() {

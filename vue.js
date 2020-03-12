@@ -37,7 +37,7 @@ let vueString = `<div id="vue-app">
   </div>
   `+`
   <div v-show="modal!==''">
-    <div class='canvas-collaborator-modal-background'>
+    <div class='canvas-collaborator-modal-background' @click.self="closeModal()">
       <div id='canvas-collaborator-modal' class='canvas-collaborator-modal'>
         <i style="float: right; cursor: pointer;" class="icon-end" @click="closeModal()"></i>
         <div v-if="checkModal('new-project')">

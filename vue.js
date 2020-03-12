@@ -409,6 +409,7 @@ APP = new Vue({
         let comment = comments[c];
         await this.setUserName(comment);
       }
+      console.log(comments);
       this.$set(todo, 'loadedComments', comments);
     },
     async createComment(todo) {

@@ -289,6 +289,7 @@ APP = new Vue({
       this.newCommentText = '';
     },
     async deleteComment(todo, comment) {
+      this.API.deleteComment(comment._id);
       for (let t = 0; t < todo.loadedComments.length; t++) {
         let checkComment = todo.loadedComments[t];
         if (comment._id === checkComment._id) {

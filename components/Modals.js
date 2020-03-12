@@ -12,7 +12,16 @@ Vue.component('edit-project', {
 });
 Vue.component('new-todo', {
   template: `
-    <div>
+    <div
+      @keyup.enter.native="$emit('create-todo', {
+        pageSpecific: pageSpecific,
+        name: todoName, 
+        pageTypes: todoPageTypes, 
+        assignments: todoAssignments,
+        tags: todoTags,
+        projectId: project._id,
+      });"
+    >
       <h2>Create Todo</h2>
       <label>Name</label>
       <input type="text" v-model="todoName" />

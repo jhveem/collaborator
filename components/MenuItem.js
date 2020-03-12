@@ -174,7 +174,7 @@ Vue.component('comment-item', {
         <i class="icon-edit" style="float: right;"></i>
         <i class="icon-trash" style="float: right;" @click="$emit('delete-comment', {'comment': comment, 'todo': todo});"></i>
         <p>{{comment.text}}</p>
-        <a :href="'/courses/'+courseId+'/'+pageType+'/'+pageId">Source</a>
+        <a :href="'/courses/'+courseId+'/'+comment.pageType+'/'+comment.pageId">Source</a>
         <div style="float: right; font-size: 9px;">
           -{{comment.userName}}<br>{{formatDate(comment.date)}}
         </div>

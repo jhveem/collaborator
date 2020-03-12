@@ -17,7 +17,7 @@ $.delete= function(url, data){
 let vueString = '';
 
 async function _init() {
-  await $.get('https://jhveem.xyz/collaborator/CourseView.html', null, function(html) {
+  await $.get('https://jhveem.xyz/collaborator/CourseView.vue', null, function(html) {
     vueString = html.replace("<template>", "").replace("</template>", "");
   }, 'text');
   console.log(vueString);

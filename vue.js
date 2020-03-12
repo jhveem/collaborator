@@ -293,6 +293,7 @@ APP = new Vue({
       for (let t in todos) {
         let todo = todos[t];
         this.calcTodoProgress(todo);
+        this.loadComments(todo);
       }
       return todos;
     },

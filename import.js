@@ -14,13 +14,13 @@ $.delete= function(url, data){
   });
 }
 
-let vueString = '';
 
 async function _init() {
+  //IMPORT VUE FILE AS STRING
+  let vueString = '';
   await $.get('https://jhveem.xyz/collaborator/CourseView.vue', null, function(html) {
     vueString = html.replace("<template>", "").replace("</template>", "");
   }, 'text');
-  console.log(vueString);
   //SET UP THE PAGE
   let canvasbody = $("#application");
   //Look at doing an html import using https://www.w3schools.com/howto/howto_html_include.asp

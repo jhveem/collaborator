@@ -12,16 +12,7 @@ Vue.component('edit-project', {
 });
 Vue.component('new-todo', {
   template: `
-    <div
-      @keyup.enter.native="$emit('create-todo', {
-        pageSpecific: pageSpecific,
-        name: todoName, 
-        pageTypes: todoPageTypes, 
-        assignments: todoAssignments,
-        tags: todoTags,
-        projectId: project._id,
-      });"
-    >
+    <div>
       <h2>Create Todo</h2>
       <label>Name</label>
       <input type="text" v-model="todoName" />
@@ -57,6 +48,14 @@ Vue.component('new-todo', {
       <br>
       <div class="canvas-collaborator-button" 
         @click="$emit('create-todo', {
+          pageSpecific: pageSpecific,
+          name: todoName, 
+          pageTypes: todoPageTypes, 
+          assignments: todoAssignments,
+          tags: todoTags,
+          projectId: project._id,
+        });"
+        @keyup.enter.native="$emit('create-todo', {
           pageSpecific: pageSpecific,
           name: todoName, 
           pageTypes: todoPageTypes, 

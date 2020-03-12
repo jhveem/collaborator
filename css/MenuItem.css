@@ -134,6 +134,8 @@ menu-item {
   left: 50%;
   z-index: 100001;
   margin: -150px 0 0 -250px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 12px 4px #000;
   padding: 10px;
 }
 .canvas-collaborator-modal h2 {

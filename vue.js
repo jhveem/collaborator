@@ -123,38 +123,11 @@ APP = new Vue({
       this.courseId = parseInt(pieces[1]);
     }
     //this.loadSettings();
-    let settingsGeneralData = await this.api.loadSettingsGeneral(this.userId);
-    if (settingsGeneralData !== undefined) {
-      let settingsGeneral = settingsGeneralData.data; 
-      if (settingsGeneral.showMenu !== undefined) {
-        let showMenu = (settingsGeneral.showMenu === "true");
-        this.toggleWindow(showMenu);
-      }
-      if (settingsGeneral.userSettings !== undefined) {
-        this.userSettings = settingsGeneral.userSettings;
-        for (var setting in this.userSettings) {
-          let value = this.userSettings[setting];
-          if (value === "true") {
-            this.userSettings[setting] = true;
-          } 
-          if (value === "false") {
-            this.userSettings[setting] = false;
-          } 
-        }
-      }
-    }
-
-    let settingsCourseData = await this.api.loadSettingsCourse(this.userId, this.courseId);
-    if (settingsCourseData !== undefined) {
-      let settingsCourse = settingsCourseData.data; 
-      if (settingsCourse.openTabs !== undefined && settingsCourse.openTabs !== '') {
-        this.openTabs = settingsCourse.openTabs;
-      }
-    }
+    await this.SETTINGS._init(this);
     /* This needs to happen async so the stuff that matters isn't caught up on it
-    this.canvasQuizzes = await this.api.getCourseQuizzes(this.courseId);
-    this.canvasPages = await this.api.getCoursePages(this.courseId);
-    this.canvasAssignments = await this.api.getCourseAssignments(this.courseId);
+    this.canvasQuizzes = await this.API.getCourseQuizzes(this.courseId);
+    this.canvasPages = await this.API.getCoursePages(this.courseId);
+    this.canvasAssignments = await this.API.getCourseAssignments(this.courseId);
     */
     await this.loadProjects();
     for (let i = 0; i < this.projectMembers.length; i++) {
@@ -182,7 +155,8 @@ APP = new Vue({
       currentProject: null,
       rMainURL: /^\/courses\/([0-9]+)/,
       rPagesURL: /^\/courses\/([0-9]+)\/([a-z]+)\/(.+?)(\/|$|\?)/,
-      api: CANVAS_COMMENTS_API,
+      API: COLLABORATOR_API_FUNCTIONS,
+      SETTINGS: COLLABORATOR_SETTINGS_FUNCTIONS, 
       pageType: '',
       pageId: '',
       header: 'projects',
@@ -220,7 +194,7 @@ APP = new Vue({
       this.header = menuName;
     },
     loadProjects: async function() {
-      let projects = await this.api.getProjects(this.courseId);
+      let projects = await this.API.getProjects(this.courseId);
       for (let p in projects) {
         let project = projects[p];
         if (project.tags === undefined) {
@@ -254,7 +228,7 @@ APP = new Vue({
       }
     },
     async createProject() {
-      let project = await this.api.createProject(this.courseId, this.newProjectName);
+      let project = await this.API.createProject(this.courseId, this.newProjectName);
       this.updateProjectInList(project);
     },
     async updateProject(project) {
@@ -262,10 +236,10 @@ APP = new Vue({
       let updatePackage = {
         name: project.name,
       };
-      await this.api.updateProject(project._id, updatePackage);
+      await this.API.updateProject(project._id, updatePackage);
     },
     async deleteProject(project) {
-      await this.api.deleteProject(project._id);
+      await this.API.deleteProject(project._id);
       //remove project from list
       for (let i =0; i < this.loadedProjects.length; i++) {
         let checkProject = this.loadedProjects[i];
@@ -286,9 +260,9 @@ APP = new Vue({
     async getTodos(project) {
       let todos;
       if (this.pageType !== '') {
-        todos = await this.api.getTodosPage(project._id, this.pageType, this.pageId);
+        todos = await this.API.getTodosPage(project._id, this.pageType, this.pageId);
       } else {
-        todos = await this.api.getTodosProject(project._id);
+        todos = await this.API.getTodosProject(project._id);
       }
       for (let t in todos) {
         let todo = todos[t];
@@ -303,7 +277,7 @@ APP = new Vue({
         pageId = this.pageId; 
         todoData.pageTypes = [this.pageType];
       }
-      let todo = await this.api.createTodo(todoData.projectId, todoData.name, todoData.pageTypes, todoData.assignments, pageId);
+      let todo = await this.API.createTodo(todoData.projectId, todoData.name, todoData.pageTypes, todoData.assignments, pageId);
       todo.loadedComments = [];
       for (let i =0; i < this.loadedProjects.length; i++) {
         let project = this.loadedProjects[i];
@@ -328,19 +302,19 @@ APP = new Vue({
         pageId: todo.pageId,
         tags: todo.tags
       };
-      await this.api.updateTodo(todo._id, updatePackage);
+      await this.API.updateTodo(todo._id, updatePackage);
     },
     async assignTodo(todo, assignments) {
-      await this.api.assignTodo(todo._id, assignments)
+      await this.API.assignTodo(todo._id, assignments)
       todo.assignments.push(assigments);
       this.$set(todo, 'assignments', todo.assignments);
     },
     async resolveTodo(todo) {
-      await this.api.resolveTodoPage(todo._id, this.pageType, this.pageId);
+      await this.API.resolveTodoPage(todo._id, this.pageType, this.pageId);
       todo.pages.push({'pageType': this.pageType, 'pageId': this.pageId});
     },
     async unresolveTodo(todo) {
-      await this.api.unresolveTodoPage(todo._id, this.pageType, this.pageId);
+      await this.API.unresolveTodoPage(todo._id, this.pageType, this.pageId);
       for (let p = 0; p < todo.pages.length; p++) {
         let page = todo.pages[p];
         if (page.pageType === this.pageType && page.pageId === this.pageId) {
@@ -386,18 +360,18 @@ APP = new Vue({
           break;
         }
       }
-      await this.api.deleteTodo(todo._id);
+      await this.API.deleteTodo(todo._id);
     },
     async loadUserName(userId) {
       let userName = '';
       if (this.userNames[userId] === undefined) {
-        userName = await this.api.getUserName(userId);
+        userName = await this.API.getUserName(userId);
         this.userNames[userId] = userName;
       }
     },
     async setUserName(comment) {
       if (this.userNames[comment.user] === undefined) {
-        comment.userName = await this.api.getUserName(comment.user);
+        comment.userName = await this.API.getUserName(comment.user);
         this.userNames[comment.user] = comment.userName;
       } else {
         comment.userName = this.userNames[comment.user];
@@ -405,7 +379,7 @@ APP = new Vue({
       return;
     },
     async loadComments(todo) {
-      let comments = await this.api.getComments(todo._id, this.pageType, this.pageId);
+      let comments = await this.API.getComments(todo._id, this.pageType, this.pageId);
       for (let c = 0; c < comments.length; c++) {
         let comment = comments[c];
         await this.setUserName(comment);
@@ -414,7 +388,7 @@ APP = new Vue({
       this.$set(todo, 'loadedComments', comments);
     },
     async createComment(todo) {
-      let comment = await this.api.createComment(this.newCommentTodo, this.newCommentText, this.pageType, this.pageId);
+      let comment = await this.API.createComment(this.newCommentTodo, this.newCommentText, this.pageType, this.pageId);
       await this.setUserName(comment);
       if (todo.loadedComments === undefined) {
         todo.loadedComments = [];
@@ -436,7 +410,7 @@ APP = new Vue({
       } else { //add it
         this.openTabs.push(obj._id);
       }
-      this.api.saveSettingCourse(this.userId, this.courseId, 'openTabs', this.openTabs);
+      this.API.saveSettingCourse(this.userId, this.courseId, 'openTabs', this.openTabs);
     },
     openModal(name, modalObject) {
       this.modal=name;
@@ -456,7 +430,7 @@ APP = new Vue({
         this.updateTodo(this.modalObject);
       }
       if (this.modal === 'settings') {
-        this.api.saveSettingGeneral(this.userId, 'userSettings', this.userSettings);
+        this.API.saveSettingGeneral(this.userId, 'userSettings', this.userSettings);
       }
       this.modalObject = {};
       this.modal = '';
@@ -477,7 +451,7 @@ APP = new Vue({
           show = true;
         }
       }
-      this.api.saveSettingGeneral(this.userId, 'showMenu', show);
+      this.API.saveSettingGeneral(this.userId, 'showMenu', show);
       if (!show) {
         canvasbody.css("margin-right", "0px");
         $("#canvas-collaborator-container").hide();

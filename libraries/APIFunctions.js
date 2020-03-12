@@ -1,5 +1,9 @@
-CANVAS_COMMENTS_API = {
+const COLLABORATOR_API_FUNCTIONS = {
   URL_BASE: "https://jhveem.xyz/api/",
+  APP: {},
+  _init(app) {
+    this.APP = app;
+  },
   async getProjects(courseId) {
     let self = this;
     let url = self.URL_BASE + "projects/courses/" + courseId;

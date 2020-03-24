@@ -116,7 +116,10 @@ APP = new Vue({
     },
     async createTodo(todoData) {
       let pageId = '';
-      todoData.parentId = ''; //fix later, make it so you can create sub todos
+      todoData.parentId = '';
+      if (this.modalObject._id !== undefined) {
+        todoData.parentId = this.modalObject._id;
+      }
       if (todoData.pageSpecific) {
         pageId = this.pageId; 
         todoData.pageTypes = [this.pageType];
@@ -258,7 +261,7 @@ APP = new Vue({
       }
       this.API.saveSettingCourse(this.userId, this.courseId, 'openTabs', this.openTabs);
     },
-    openModal(name, modalObject) {
+    openModal(name, modalObject={}) {
       this.modal=name;
       this.modalObject = modalObject;
       if (name === 'edit-todo') {

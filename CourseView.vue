@@ -18,7 +18,7 @@
           :settings="userSettings"
           :open-tabs="openTabs"
           @toggle="toggle($event);"
-          @new-todo="openModal('new-todo');"
+          @new-todo="openModal('new-todo', $event);"
           @edit-todo="openModal('edit-todo', $event);"
           @delete-todo="deleteTodo($event);"
           @resolve-todo="resolveTodo($event);"

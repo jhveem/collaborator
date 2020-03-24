@@ -36,9 +36,9 @@ const COLLABORATOR_API_FUNCTIONS = {
     await axios.delete(url);
     return;
   },
-  async getTodos(projectId) {
+  async getTodos(courseId) {
     let self = this;
-    let url = self.URL_BASE + "projects/" + projectId + "/todos";
+    let url = self.URL_BASE + "todos/courses/" + courseId;
     let res = await axios.get(url);
     return res.data;
   },

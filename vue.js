@@ -45,14 +45,14 @@ APP = new Vue({
       modal: '',
       userNames: {},
       userId: ENV.current_user_id,
-      menuCurrent: "projects",
+      menuCurrent: "main",
       rMainURL: /^\/courses\/([0-9]+)/,
       rPagesURL: /^\/courses\/([0-9]+)\/([a-z]+)\/(.+?)(\/|$|\?)/,
       API: COLLABORATOR_API_FUNCTIONS,
       SETTINGS: COLLABORATOR_SETTINGS_FUNCTIONS, 
       pageType: '',
       pageId: '',
-      header: 'projects',
+      header: 'To Dos',
       menuItems: [],
       todos: [],
       pageTypes: { 
@@ -109,6 +109,7 @@ APP = new Vue({
       return todos;
     },
     async createTodo(todoData) {
+      /*
       let pageId = '';
       if (todoData.pageSpecific) {
         pageId = this.pageId; 
@@ -123,6 +124,7 @@ APP = new Vue({
           break;
         }
       }
+      */
     },
     async updateTodo(todo) {
       //possible base this off of modal object
@@ -184,6 +186,7 @@ APP = new Vue({
     },
     async deleteTodo(todo) {
       //some kind of check to make sure this worked
+      /*
       for (let p = 0; p < this.loadedProjects.length; p++) {
         let project = this.loadedProjects[p];
         if (project._id === todo.projectId) {
@@ -197,6 +200,7 @@ APP = new Vue({
           break;
         }
       }
+      */
       await this.API.deleteTodo(todo._id);
     },
     async loadUserName(userId) {

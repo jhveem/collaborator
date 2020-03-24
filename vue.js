@@ -91,6 +91,7 @@ APP = new Vue({
           todo['tags'] = {};
         }
       }
+      console.log(todos);
       this.todos = todos;
     },
     async getTodos(project) {

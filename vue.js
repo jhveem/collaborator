@@ -55,7 +55,7 @@ APP = new Vue({
       pageId: '',
       header: 'projects',
       menuItems: [],
-      loadedProjects: [],
+      todos: [],
       pageTypes: { 
         quizzes: 'quizzes',
         assignments: 'assignments',
@@ -95,6 +95,7 @@ APP = new Vue({
           todo['tags'] = {};
         }
       }
+      this.todos = todos;
     },
     loadProjects: async function() {
       let projects = await this.API.getProjects(this.courseId);

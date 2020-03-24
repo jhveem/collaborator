@@ -14,7 +14,7 @@
       <div v-for="(todo, t) in todos" :key="t">
         <todo-item
           :todo="todo"
-          :settings="settings"
+          :settings="userSettings"
           :open-tabs="openTabs"
           @toggle="toggle($event);"
           @new-todo="openModal('new-todo');"

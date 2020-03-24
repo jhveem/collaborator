@@ -22,7 +22,8 @@ APP = new Vue({
     this.canvasPages = await this.API.getCoursePages(this.courseId);
     this.canvasAssignments = await this.API.getCourseAssignments(this.courseId);
     */
-    await this.loadProjects();
+    await this.loadTodos();
+    //await this.loadProjects();
     for (let i = 0; i < this.projectMembers.length; i++) {
       let userId = this.projectMembers[i];
       this.loadUserName(userId);
@@ -85,6 +86,15 @@ APP = new Vue({
       this.menuCurrent = menuName;
       this.menuItems = this.menus[menuName];
       this.header = menuName;
+    },
+    loadTodos: async function() {
+      let todos = await this.API.getTodos(this.courseId);
+      for (let t in todos) {
+        let todo = todos[t];
+        if (todos.tags === undefined) {
+          todo['tags'] = {};
+        }
+      }
     },
     loadProjects: async function() {
       let projects = await this.API.getProjects(this.courseId);

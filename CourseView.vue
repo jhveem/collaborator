@@ -9,16 +9,12 @@
         <i class="icon-add"></i>
         New Project
       </div>
-      <div v-for="(project, key) in loadedProjects">
-        <project-item 
-          :project="project"
+      <div v-for="(todo, t) in todos" :key="t">
+        <todo-item
+          :todo="todo"
+          :settings="settings"
           :open-tabs="openTabs"
-          :todos="project.loadedTodos"
-          :user-names="userNames"
-          :settings="userSettings"
           @toggle="toggle($event);"
-          @delete-project="deleteProject(project);"
-          @edit-project="openModal('edit-project', $event);"
           @new-todo="openModal('new-todo', project); modalTodoProject = project;"
           @edit-todo="openModal('edit-todo', $event); modalTodoProject = project;"
           @delete-todo="deleteTodo($event);"
@@ -27,7 +23,7 @@
           @new-comment="openModal('new-comment', $event); newCommentTodo=$event._id;"
           @delete-comment="deleteComment($event['todo'], $event['comment']);"
         >
-        </project-item>
+        </todo-item>
       </div>
     </div>
     <div v-show="modal!==''">

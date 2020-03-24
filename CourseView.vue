@@ -9,7 +9,7 @@
         <i class="icon-add"></i>
         New Project
       </div>
-      <div v-for="(project) in loadedProjects">
+      <div v-for="(project, key) in loadedProjects">
         <project-item 
           :project="project"
           :open-tabs="openTabs"
@@ -37,7 +37,7 @@
           <div v-if="checkModal('new-project')">
             <h2>Create Project</h2>
             <label>Name</label>
-            <input type="text" v-model="newProjectName"></input>
+            <input type="text" v-model="newProjectName"/>
             <div class="canvas-collaborator-button" @click="createProject(); closeModal();">Save</div>
           </div>
           <div v-if="checkModal('edit-project')">

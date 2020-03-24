@@ -54,15 +54,16 @@ const COLLABORATOR_API_FUNCTIONS = {
     let res = await axios.get(url);
     return res.data;
   },
-  async createTodo(projectId, name, pageTypes = [''], assignments = [''], pageId = '') {
+  async createTodo(courseId, name, parentId = '', pageTypes = [''], assignments = [''], pageId = '') {
     let self = this;
-    let url = self.URL_BASE + "projects/" + projectId + "/todo";
+    let url = self.URL_BASE + "todos/" + + "/todo";
     if (typeof assignments === 'string') assignments = [assignments];
     let res = await axios.post(url, {
       'name': name,
       'pageTypes': pageTypes,
       'assignments': assignments,
-      'pageId': pageId
+      'pageId': pageId,
+      'parentId': parentId
     });
     return res.data;
   },

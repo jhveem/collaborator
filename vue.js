@@ -89,6 +89,7 @@ APP = new Vue({
         let todo = todos[t];
         if (todos.tags === undefined) {
           todo['tags'] = {};
+          tood['todos'] = [];
         }
       }
       console.log(todos);
@@ -109,22 +110,21 @@ APP = new Vue({
       return todos;
     },
     async createTodo(todoData) {
-      /*
       let pageId = '';
+      todoData.parentId = ''; //fix later, make it so you can create sub todos
       if (todoData.pageSpecific) {
         pageId = this.pageId; 
         todoData.pageTypes = [this.pageType];
       }
-      let todo = await this.API.createTodo(todoData.projectId, todoData.name, todoData.pageTypes, todoData.assignments, pageId);
+      let todo = await this.API.createTodo(this.courseId, todoData.name, todoData.parentId, todoData.pageTypes, todoData.assignments, pageId);
       todo.loadedComments = [];
-      for (let i =0; i < this.loadedProjects.length; i++) {
-        let project = this.loadedProjects[i];
-        if (todoData.projectId === project._id) {
-          project.loadedTodos.push(todo);
+      for (let i =0; i < this.todso.length; i++) {
+        let todo = this.todos[i];
+        if (todoData.parentId === todo._id) {
+          todo.todos.push(todo);
           break;
         }
       }
-      */
     },
     async updateTodo(todo) {
       //possible base this off of modal object

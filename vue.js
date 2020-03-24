@@ -89,7 +89,7 @@ APP = new Vue({
         let todo = todos[t];
         if (todos.tags === undefined) {
           todo['tags'] = {};
-          tood['todos'] = [];
+          todo['todos'] = [];
         }
       }
       console.log(todos);

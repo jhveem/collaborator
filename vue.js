@@ -118,7 +118,7 @@ APP = new Vue({
       }
       let todo = await this.API.createTodo(this.courseId, todoData.name, todoData.parentId, todoData.pageTypes, todoData.assignments, pageId);
       todo.loadedComments = [];
-      for (let i =0; i < this.todso.length; i++) {
+      for (let i =0; i < this.todos.length; i++) {
         let todo = this.todos[i];
         if (todoData.parentId === todo._id) {
           todo.todos.push(todo);

@@ -56,7 +56,7 @@ const COLLABORATOR_API_FUNCTIONS = {
   },
   async createTodo(courseId, name, parentId = '', pageTypes = [''], assignments = [''], pageId = '') {
     let self = this;
-    let url = self.URL_BASE + "todos/" + + "/todo";
+    let url = self.URL_BASE + "todos/courses/" + courseId;
     if (typeof assignments === 'string') assignments = [assignments];
     let res = await axios.post(url, {
       'name': name,

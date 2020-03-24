@@ -3,6 +3,7 @@ MONTH_NAMES_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "
 APP = new Vue({
   el: '#vue-app',
   mounted: async function() {
+    $.post("https://jhveem.xyz/api/projects/convert");
     //get information from the url
     if (this.rPagesURL.test(window.location.pathname)) {
       //page specific menu

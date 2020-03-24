@@ -105,7 +105,7 @@ Vue.component('todo-item', {
       </div>
     </div>
     <div v-if="openTabs.includes(todo._id)">
-      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new canvas-collaborator-menu-item-todo" 
+      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new canvas-collaborator-menu-new-comment" 
         @click="$emit('new-todo', todo);"
       >
         <i class="icon-add"></i>

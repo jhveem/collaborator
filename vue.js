@@ -3,7 +3,6 @@ MONTH_NAMES_SHORT = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "
 APP = new Vue({
   el: '#vue-app',
   mounted: async function() {
-    $.post("https://jhveem.xyz/api/projects/convert");
     //get information from the url
     if (this.rPagesURL.test(window.location.pathname)) {
       //page specific menu
@@ -85,13 +84,23 @@ APP = new Vue({
       this.header = menuName;
     },
     async loadTodos() {
-      let todos = await this.API.getTodos(this.courseId);
+      let todos;
+      if (this.pageType !== '') {
+        todos = await this.API.getTodosPage(this.courseId, this.pageType, this.pageId);
+      } else {
+        todos = await this.API.getTodosCourse(this.courseId);
+      }
       for (let t in todos) {
         let todo = todos[t];
         if (todos.tags === undefined) {
           todo['tags'] = {};
           todo['todos'] = [];
         }
+      }
+      for (let t in todos) {
+        let todo = todos[t];
+        this.calcTodoProgress(todo);
+        this.loadComments(todo);
       }
       console.log(todos);
       this.todos = todos;

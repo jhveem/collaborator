@@ -84,12 +84,7 @@ APP = new Vue({
       this.header = menuName;
     },
     async loadTodos() {
-      let todos;
-      if (this.pageType !== '') {
-        todos = await this.API.getTodosPage(this.courseId, this.pageType, this.pageId);
-      } else {
-        todos = await this.API.getTodosCourse(this.courseId);
-      }
+      let todos = await this.API.getTodosCourse(this.courseId);
       for (let t in todos) {
         let todo = todos[t];
         if (todos.tags === undefined) {

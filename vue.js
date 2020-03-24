@@ -46,7 +46,6 @@ APP = new Vue({
       userNames: {},
       userId: ENV.current_user_id,
       menuCurrent: "projects",
-      currentProject: null,
       rMainURL: /^\/courses\/([0-9]+)/,
       rPagesURL: /^\/courses\/([0-9]+)\/([a-z]+)\/(.+?)(\/|$|\?)/,
       API: COLLABORATOR_API_FUNCTIONS,
@@ -62,11 +61,8 @@ APP = new Vue({
         pages: 'pages'
       },
       modalObject: {},
-      newProjectName: '',
-      modalTodoProject: {},
       newTodoName: '',
       newTodoPageTypes: [],
-      newTodoProject: '',
       projectTags: [],
       newTodoAssignments: [],
       newCommentText: '',
@@ -82,12 +78,12 @@ APP = new Vue({
     }
   },
   methods: {
-    goto: function(menuName) {
+    goto(menuName) {
       this.menuCurrent = menuName;
       this.menuItems = this.menus[menuName];
       this.header = menuName;
     },
-    loadTodos: async function() {
+    async loadTodos() {
       let todos = await this.API.getTodos(this.courseId);
       for (let t in todos) {
         let todo = todos[t];
@@ -96,70 +92,6 @@ APP = new Vue({
         }
       }
       this.todos = todos;
-    },
-    loadProjects: async function() {
-      let projects = await this.API.getProjects(this.courseId);
-      for (let p in projects) {
-        let project = projects[p];
-        if (project.tags === undefined) {
-          project['tags'] = {};
-        }
-      }
-      this.updateProjectList(projects);
-    },
-    updateProjectList(projects) {
-      for (let p = 0; p < projects.length; p++) {
-        let project = projects[p];
-        this.updateProjectInList(project);
-      }
-    },
-    updateProjectInList(project) {
-      let exists = false;
-      for (let i =0; i < this.loadedProjects.length; i++) {
-        let checkProject = this.loadedProjects[i];
-        if (checkProject._id === project._id) {
-          for (let key in project) {
-            this.$set(checkProject, key, project[key]);
-          }
-          exists = true;
-        }
-      }
-      //might be able to get rid of this, because we're no longer adding additional variable of collapsed, so we can read straight from the projects variable
-      if (exists === false) {
-        project.loadedTodos = [];
-        this.loadedProjects.push(project);
-        this.setProjectTodos(project);
-      }
-    },
-    async createProject() {
-      let project = await this.API.createProject(this.courseId, this.newProjectName);
-      this.updateProjectInList(project);
-    },
-    async updateProject(project) {
-      //possible base this off of modal object
-      let updatePackage = {
-        name: project.name,
-      };
-      await this.API.updateProject(project._id, updatePackage);
-    },
-    async deleteProject(project) {
-      await this.API.deleteProject(project._id);
-      //remove project from list
-      for (let i =0; i < this.loadedProjects.length; i++) {
-        let checkProject = this.loadedProjects[i];
-        if (project._id === checkProject._id) {
-          this.loadedProjects.splice(i, 1);
-          break;
-        }
-      }
-    },
-    async setProjectTodos(project) {
-      let todos = await this.getTodos(project);
-      for (let t = 0; t < todos.length; t++) {
-        let todo = todos[t];
-        todo['loadedComments'] = [];
-      }
-      this.$set(project, 'loadedTodos', todos);
     },
     async getTodos(project) {
       let todos;

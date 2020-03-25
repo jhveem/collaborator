@@ -99,7 +99,6 @@ APP = new Vue({
       }
       for (let t in todos) {
       }
-      console.log(todos);
       this.todos = todos;
     },
     async getTodos(project) {

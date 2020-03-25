@@ -52,10 +52,6 @@
 .color-test-just-for-me-really-do-not-use-this {
   color: #49E;
 }
-.canvas-collaborator-menu-item-new-comment {
-  margin-left: 20px;
-  width: calc(100% - 20px);
-}
 .canvas-collaborator-menu-item-comment {
   background-color: #FFF;
   color: #000;

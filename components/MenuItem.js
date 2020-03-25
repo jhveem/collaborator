@@ -17,13 +17,17 @@ Vue.component('todo-item', {
       </div>
     </div>
     <div v-if="openTabs.includes(todo._id)">
-      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new canvas-collaborator-menu-new-comment" 
+      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new" 
+        :style="{
+          'margin-left': '20px',
+          'width': '100% - 20px'
+        }"
         @click="$emit('new-todo', todo);"
       >
         <i class="icon-add"></i>
         New To Do 
       </div>
-      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new canvas-collaborator-menu-item-new-comment" @click="$emit('new-comment', todo);">
+      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new" @click="$emit('new-comment', todo);">
         <i class="icon-add"></i>
         New Comment 
       </div>
@@ -73,6 +77,7 @@ Vue.component('todo-item', {
     'project',
     'openTabs',
     'parent',
+    'level'
   ],
   methods: {
     checkResolvedTodoPage(todo, pageType, pageId) {

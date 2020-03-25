@@ -4,7 +4,6 @@
 Vue.component('todo-item', {
   template: `
   <div
-    v-if="todo.parentId === parent" 
   >
     <div v-bind:class="{'canvas-collaborator-menu-item-assigned': isAssigned}" class="canvas-collaborator-menu-item canvas-collaborator-menu-item-todo" @click="$emit('edit-todo');">
       <div class="canvas-collaborator-submenu-delete">

@@ -85,6 +85,8 @@ Vue.component('todo-item', {
   },
   mounted: function() {
     console.log(this.parentId);
+    console.log(this.todo._id);
+    console.log(this.todo.parentId);
   },
   computed: {
     isAssigned: function() {

@@ -4,7 +4,15 @@
 Vue.component('todo-item', {
   template: `
   <div>
-    <div v-bind:class="{'canvas-collaborator-menu-item-assigned': isAssigned}" class="canvas-collaborator-menu-item canvas-collaborator-menu-item-todo" @click="$emit('edit-todo');">
+    <div 
+      v-bind:class="{'canvas-collaborator-menu-item-assigned': isAssigned}" 
+      class="canvas-collaborator-menu-item canvas-collaborator-menu-item-todo" 
+      @click="$emit('edit-todo');"
+      :style="{
+        'margin-left': ((level) * 20) + 'px',
+        'width': '100% - ' + ((level) * 20) + 'px'
+      }"
+     >
       <div class="canvas-collaborator-submenu-delete">
         <i class="icon-trash" @click.stop="$emit('delete-todo');"></i>
       </div>

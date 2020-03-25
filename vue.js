@@ -94,7 +94,6 @@ APP = new Vue({
         if (todo.pageTypes === undefined || todo.pageTypes === null) {
           todo['pageTypes'] = [];
         }
-        console.log(todo);
         this.calcTodoProgress(todo);
         this.loadComments(todo);
       }

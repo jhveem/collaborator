@@ -87,15 +87,17 @@ APP = new Vue({
       let todos = await this.API.getTodosCourse(this.courseId);
       for (let t in todos) {
         let todo = todos[t];
+        todo['todos'] = [];
         if (todos.tags === undefined) {
           todo['tags'] = {};
-          todo['todos'] = [];
         }
-      }
-      for (let t in todos) {
-        let todo = todos[t];
+        if (todo.pageTypes === undefined) {
+          todo['pageTypes'] = [];
+        }
         this.calcTodoProgress(todo);
         this.loadComments(todo);
+      }
+      for (let t in todos) {
       }
       console.log(todos);
       this.todos = todos;

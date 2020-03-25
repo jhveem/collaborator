@@ -3,7 +3,9 @@
 //https://stackoverflow.com/questions/49729384/vue-emit-passing-argument-to-a-function-that-already-have-arguments
 Vue.component('todo-item', {
   template: `
-  <div>
+  <div
+    v-if="todo.parentId === parent" 
+  >
     <div v-bind:class="{'canvas-collaborator-menu-item-assigned': isAssigned}" class="canvas-collaborator-menu-item canvas-collaborator-menu-item-todo" @click="$emit('edit-todo');">
       <div class="canvas-collaborator-submenu-delete">
         <i class="icon-trash" @click.stop="$emit('delete-todo');"></i>
@@ -26,6 +28,27 @@ Vue.component('todo-item', {
       >
         <i class="icon-add"></i>
         New To Do 
+      </div>
+      <div v-for="todoChild in todos">
+        <todo-item
+          v-if="((todo.pageTypes.includes(pageType) || pageType === '') && (todo.pageId === pageId || todo.pageId === ''))"
+          :todo="todo"
+          :todos="todos"
+          :settings="settings"
+          :open-tabs="openTabs"
+          :parent="todo._id"
+          :level="level + 1"
+          @open-tabs="$emit('open-tabs');"
+          @toggle="$emit('toggle', $event);"
+          @new-todo="$emit('new-todo', $event);"
+          @edit-todo="$emit('edit-todo', $event);"
+          @delete-todo="$emit('delete-todo', $event);"
+          @resolve-todo="$emit('resolve-todo', $event);"
+          @unresolve-todo="$emit('unresolve-todo', $event);"
+          @new-comment="$emit('new-comment', $event);"
+          @delete-comment="$emit('delete-comment', $event);"
+        >
+        
       </div>
       <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new"
         :style="{
@@ -59,7 +82,6 @@ Vue.component('todo-item', {
       this.courseId = parseInt(pieces[1]);
       //await self.getSavedSettings();
     }
-    console.log(this.level);
   },
   computed: {
     isAssigned: function() {
@@ -80,6 +102,7 @@ Vue.component('todo-item', {
   },
   props: [
     'todo',
+    'todos',
     'project',
     'openTabs',
     'parent',

@@ -15,6 +15,7 @@
         <todo-item
           v-if="((todo.pageTypes.includes(pageType) || pageType === '') && (todo.pageId === pageId || todo.pageId === ''))"
           :todo="todo"
+          :todos="todos"
           :settings="userSettings"
           :open-tabs="openTabs"
           :parent="''"

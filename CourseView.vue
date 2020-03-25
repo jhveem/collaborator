@@ -18,6 +18,7 @@
           :settings="userSettings"
           :open-tabs="openTabs"
           :parent="''"
+          @open-tabs="openTabs"
           @toggle="toggle($event);"
           @new-todo="openModal('new-todo', $event);"
           @edit-todo="openModal('edit-todo', $event);"

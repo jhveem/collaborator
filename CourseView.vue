@@ -18,7 +18,7 @@
           :todos="todos"
           :settings="userSettings"
           :open-tabs="openTabs"
-          :parent="''"
+          :parentId="''"
           :level="0"
           @open-tabs="openTabs"
           @toggle="toggle($event);"

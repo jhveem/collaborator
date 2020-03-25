@@ -3,9 +3,7 @@
 //https://stackoverflow.com/questions/49729384/vue-emit-passing-argument-to-a-function-that-already-have-arguments
 Vue.component('todo-item', {
   template: `
-  <div
-    v-if="todo.parentId === parentId" 
-  >
+  <div>
     <div v-bind:class="{'canvas-collaborator-menu-item-assigned': isAssigned}" class="canvas-collaborator-menu-item canvas-collaborator-menu-item-todo" @click="$emit('edit-todo');">
       <div class="canvas-collaborator-submenu-delete">
         <i class="icon-trash" @click.stop="$emit('delete-todo');"></i>
@@ -31,12 +29,11 @@ Vue.component('todo-item', {
       </div>
       <div v-for="todoChild in todos">
         <todo-item
-          v-if="((todo.pageTypes.includes(pageType) || pageType === '') && (todo.pageId === pageId || todo.pageId === ''))"
-          :todo="todo"
+          v-if="(todoChild.parentId === todo._id && (todo.pageTypes.includes(pageType) || pageType === '') && (todo.pageId === pageId || todo.pageId === ''))"
+          :todo="todoChild"
           :todos="todos"
           :settings="settings"
           :open-tabs="openTabs"
-          :parentId="todo._id"
           :level="level + 1"
           @open-tabs="$emit('open-tabs');"
           @toggle="$emit('toggle', $event);"
@@ -83,11 +80,6 @@ Vue.component('todo-item', {
       //await self.getSavedSettings();
     }
   },
-  mounted: function() {
-    console.log(this.parentId);
-    console.log(this.todo._id);
-    console.log(this.todo.parentId);
-  },
   computed: {
     isAssigned: function() {
       if (this.todo.assignments === null) {
@@ -110,7 +102,6 @@ Vue.component('todo-item', {
     'todos',
     'project',
     'openTabs',
-    'parentId',
     'settings',
     'level'
   ],

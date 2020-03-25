@@ -13,12 +13,11 @@
       </div>
       <div v-for="(todo, t) in todos" :key="t">
         <todo-item
-          v-if="((todo.pageTypes.includes(pageType) || pageType === '') && (todo.pageId === pageId || todo.pageId === ''))"
+          v-if="(todo.parentId === '' && (todo.pageTypes.includes(pageType) || pageType === '') && (todo.pageId === pageId || todo.pageId === ''))"
           :todo="todo"
           :todos="todos"
           :settings="userSettings"
           :open-tabs="openTabs"
-          :parentId="''"
           :level="0"
           @open-tabs="openTabs"
           @toggle="toggle($event);"

@@ -69,7 +69,7 @@ Vue.component('todo-item', {
   </div>
   `,
   created: function() {
-    console.log(parentId);
+    console.log(this.parentId);
     if (this.rPagesURL.test(window.location.pathname)) {
       //page specific menu
       let pieces = window.location.pathname.match(this.rPagesURL);

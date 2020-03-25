@@ -19,15 +19,21 @@ Vue.component('todo-item', {
     <div v-if="openTabs.includes(todo._id)">
       <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new" 
         :style="{
-          'margin-left': '20px',
-          'width': '100% - 20px'
+          'margin-left': ((level + 1) * 20) + 'px',
+          'width': '100% - ' + ((level + 1) * 20) + 'px'
         }"
         @click="$emit('new-todo', todo);"
       >
         <i class="icon-add"></i>
         New To Do 
       </div>
-      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new" @click="$emit('new-comment', todo);">
+      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new"
+        :style="{
+          'margin-left': ((level + 1) * 20) + 'px',
+          'width': '100% - ' + ((level + 1) * 20) + 'px'
+        }" 
+        @click="$emit('new-comment', todo);"
+      >
         <i class="icon-add"></i>
         New Comment 
       </div>

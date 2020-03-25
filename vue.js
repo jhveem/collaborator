@@ -96,8 +96,7 @@ APP = new Vue({
         }
         this.calcTodoProgress(todo);
         this.loadComments(todo);
-      }
-      for (let t in todos) {
+        console.log(todo);
       }
       this.todos = todos;
     },

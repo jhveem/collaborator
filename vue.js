@@ -88,10 +88,10 @@ APP = new Vue({
       for (let t in todos) {
         let todo = todos[t];
         todo['todos'] = [];
-        if (todos.tags === undefined) {
+        if (todos.tags === undefined || todo.tags === null) {
           todo['tags'] = {};
         }
-        if (todo.pageTypes === undefined) {
+        if (todo.pageTypes === undefined || todo.pageTypes === null) {
           todo['pageTypes'] = [];
         }
         console.log(todo);

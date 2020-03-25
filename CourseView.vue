@@ -5,7 +5,7 @@
     <h3 class="collaborator-menu-header">{{header}}</h3>
     </div>
     <div v-if="menuCurrent ==='main'">
-      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new canvas-collaborator-menu-item-todo" 
+      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new" 
         @click="openModal('new-todo');"
       >
         <i class="icon-add"></i>

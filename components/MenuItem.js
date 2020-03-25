@@ -4,6 +4,7 @@
 Vue.component('todo-item', {
   template: `
   <div
+    v-if="todo.parentId === parent" 
   >
     <div v-bind:class="{'canvas-collaborator-menu-item-assigned': isAssigned}" class="canvas-collaborator-menu-item canvas-collaborator-menu-item-todo" @click="$emit('edit-todo');">
       <div class="canvas-collaborator-submenu-delete">
@@ -68,6 +69,7 @@ Vue.component('todo-item', {
   </div>
   `,
   created: function() {
+    console.log(parent);
     if (this.rPagesURL.test(window.location.pathname)) {
       //page specific menu
       let pieces = window.location.pathname.match(this.rPagesURL);

@@ -106,6 +106,7 @@ Vue.component('todo-item', {
     'project',
     'openTabs',
     'parent',
+    'settings',
     'level'
   ],
   methods: {

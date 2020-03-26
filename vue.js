@@ -150,7 +150,15 @@ APP = new Vue({
       }
       this.$set(project, 'loadedTodos', todos);
     },
-    async getTodos(project) {
+    async getTodos() {
+      let todos;
+      if (this.pageType !== '') {
+        todos = await this.API.getTodosPage(this.courseId, this.pageType, this.pageId);
+      } else {
+        todos = await this.API.getTodosProject(this.courseId);
+      }
+    },
+    async getProjectTodos(project) {
       let todos;
       if (this.pageType !== '') {
         todos = await this.API.getTodosPage(project._id, this.pageType, this.pageId);

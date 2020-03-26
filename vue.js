@@ -193,21 +193,12 @@ APP = new Vue({
     },
     async deleteTodo(todo) {
       //some kind of check to make sure this worked
-      /*
-      for (let p = 0; p < this.loadedProjects.length; p++) {
-        let project = this.loadedProjects[p];
-        if (project._id === todo.projectId) {
-          let todos = project.loadedTodos;
-          for (let t = 0; t < todos.length; t++) {
-            if (todos[t]._id === todo._id) {
-              todos.splice(t, 1);
-              break;
-            }
-          }
+      for (let t = 0; t < this.todos.length; t++) {
+        if (this.todos[t]._id === todo._id) {
+          this.todos.splice(t, 1);
           break;
         }
       }
-      */
       await this.API.deleteTodo(todo._id);
     },
     async loadUserName(userId) {

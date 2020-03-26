@@ -14,7 +14,7 @@ Vue.component('todo-item', {
       }"
      >
       <div class="canvas-collaborator-submenu-delete">
-        <i class="icon-trash" @click.stop="$emit('delete-todo');"></i>
+        <i class="icon-trash" @click.stop="$emit('delete-todo', todo);"></i>
       </div>
       <div>
         <i v-if="openTabs.includes(todo._id)" :class="'icon-mini-arrow-down'" @click.stop="$emit('toggle', todo)"></i>

@@ -87,7 +87,6 @@ APP = new Vue({
       let todos = await this.API.getTodosCourse(this.courseId);
       for (let t in todos) {
         let todo = todos[t];
-        todo['todos'] = [];
         if (todos.tags === undefined || todo.tags === null) {
           todo['tags'] = {};
         }
@@ -126,13 +125,7 @@ APP = new Vue({
       }
       let todo = await this.API.createTodo(this.courseId, todoData.name, todoData.parentId, todoData.pageTypes, todoData.assignments, pageId);
       todo.loadedComments = [];
-      for (let i =0; i < this.todos.length; i++) {
-        let todo = this.todos[i];
-        if (todoData.parentId === todo._id) {
-          todo.todos.push(todo);
-          break;
-        }
-      }
+      this.todos.push(todo);
     },
     async updateTodo(todo) {
       //possible base this off of modal object

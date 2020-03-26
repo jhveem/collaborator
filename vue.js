@@ -87,7 +87,7 @@ APP = new Vue({
       let todos = await this.API.getTodosCourse(this.courseId);
       for (let t in todos) {
         let todo = todos[t];
-        if (todos.tags === undefined || todo.tags === null) {
+        if (todo.tags === undefined || todo.tags === null) {
           todo['tags'] = {};
         }
         if (todo.pageTypes === undefined || todo.pageTypes === null) {
@@ -124,7 +124,7 @@ APP = new Vue({
         todoData.pageTypes = [this.pageType];
       }
       let todo = await this.API.createTodo(this.courseId, todoData.name, todoData.parentId, todoData.pageTypes, todoData.assignments, pageId);
-      if (todos.tags === undefined || todo.tags === null) {
+      if (todo.tags === undefined || todo.tags === null) {
         todo['tags'] = {};
       }
       if (todo.pageTypes === undefined || todo.pageTypes === null) {

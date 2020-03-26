@@ -52,6 +52,7 @@ OTHER
 don't actually delete anything, but add a delete on date to items. Server then checks to see if it's after that date and then really deletes it. This way you can restore projects, todos, comments, etc.
 -only pull projects, todos, comments where delete date is null
 also need to make it "harder" to delete. add a confirmation or slider or something to really delete it. Click delete, icon changes to confirm button which disappears after 5 seconds, or something.
+way to export a report.
 
 When not in a course, pull up list of all courses where you have unresolved todos.
 -save the last page you were working on in that course

@@ -1,15 +1,3 @@
-Vue.component('edit-project', {
-  template: `
-    <div>
-      <h2>Edit Project</h2>
-      <label>Name</label>
-      <input type="text" v-model="project.name" />
-    </div> 
-  `,
-  props: { 
-    project: Object, 
-  },
-});
 Vue.component('new-todo', {
   template: `
     <div>
@@ -38,7 +26,7 @@ Vue.component('new-todo', {
       </select-2>
       <br>
       <select-2 
-        :options="projectTags"
+        :options="tags"
         :new-tags="true"
         placeholder="Add a tag"
         v-model="todoTags"
@@ -53,7 +41,6 @@ Vue.component('new-todo', {
           pageTypes: todoPageTypes, 
           assignments: todoAssignments,
           tags: todoTags,
-          projectId: project._id,
         });"
         @keyup.enter.native="$emit('create-todo', {
           pageSpecific: pageSpecific,
@@ -61,7 +48,6 @@ Vue.component('new-todo', {
           pageTypes: todoPageTypes, 
           assignments: todoAssignments,
           tags: todoTags,
-          projectId: project._id,
         });"
       >
         Save
@@ -74,11 +60,10 @@ Vue.component('new-todo', {
     pageTypes: {
       type: Array
     },
-    project: Object,
     projectMembers: {
       type: Array
     },
-    projectTags: {
+    tags: {
       type: Array
     },
     pageId: String,
@@ -120,7 +105,7 @@ Vue.component('edit-todo', {
       </select-2>
       <br>
       <select-2 
-        :options="projectTags"
+        :options="tags"
         :name="'Tags'"
         :new-tags="true"
         :placeholder="'Add a tag'"
@@ -134,8 +119,7 @@ Vue.component('edit-todo', {
     todo: Object, 
     userNames: Object,
     currentPageType: String,
-    project: Object,
-    projectTags: {
+    tags: {
       type: Array
     },
     pageTypes: {

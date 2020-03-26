@@ -4,65 +4,33 @@ const COLLABORATOR_API_FUNCTIONS = {
   _init(app) {
     this.APP = app;
   },
-  async getProjects(courseId) {
-    let self = this;
-    let url = self.URL_BASE + "projects/courses/" + courseId;
-    let res = await axios.get(url);
-    return res.data;
-  },
-  async createProject(courseId, name) {
-    let self = this;
-    let url = self.URL_BASE + "projects/courses/" + courseId;
-    let returnData = null;
-    let res = await axios.post(url, {
-      'name': name,
-      'course': courseId
-    });
-    return res.data;
-  },
-  async updateProject(projectId, updatePackage) {
-    let self = this;
-    let url = self.URL_BASE + "projects/" + projectId;
-    await axios.put(url, updatePackage);
-  },
   async getUserName(userId) {
     let url = "/api/v1/users/"+userId;
     let res = await axios.get(url);
     return res.data.name;
   },
-  async deleteProject(projectId) {
+  async getTodosCourse(courseId) {
     let self = this;
-    let url = self.URL_BASE + "projects/" + projectId;
-    await axios.delete(url);
-    return;
-  },
-  async getTodos(projectId) {
-    let self = this;
-    let url = self.URL_BASE + "projects/" + projectId + "/todos";
+    let url = self.URL_BASE + "todos/courses/" + courseId;
     let res = await axios.get(url);
     return res.data;
   },
-  async getTodosProject(projectId) {
+  async getTodosPage(courseId, pageType, pageId) {
     let self = this;
-    let url = self.URL_BASE + "projects/" + projectId + "/todos/project";
+    let url = self.URL_BASE + "todso/courses/" + courseId + "/pages/"+pageType+"/"+pageId;
     let res = await axios.get(url);
     return res.data;
   },
-  async getTodosPage(projectId, pageType, pageId) {
+  async createTodo(courseId, name, parentId = '', pageTypes = [''], assignments = [''], pageId = '') {
     let self = this;
-    let url = self.URL_BASE + "projects/" + projectId + "/todos/pages/"+pageType+"/"+pageId;
-    let res = await axios.get(url);
-    return res.data;
-  },
-  async createTodo(projectId, name, pageTypes = [''], assignments = [''], pageId = '') {
-    let self = this;
-    let url = self.URL_BASE + "projects/" + projectId + "/todo";
+    let url = self.URL_BASE + "todos/courses/" + courseId;
     if (typeof assignments === 'string') assignments = [assignments];
     let res = await axios.post(url, {
       'name': name,
       'pageTypes': pageTypes,
       'assignments': assignments,
-      'pageId': pageId
+      'pageId': pageId,
+      'parentId': parentId
     });
     return res.data;
   },

@@ -1,111 +1,67 @@
 'use strict';
 //look at this for emits with multiple arguments. I hope I haven't broken this... :D
 //https://stackoverflow.com/questions/49729384/vue-emit-passing-argument-to-a-function-that-already-have-arguments
-Vue.component('project-item', {
-  template: `
-    <div>
-      <div>
-      <div style="border-left: 10px solid #49E" class="canvas-collaborator-menu-item canvas-collaborator-menu-item-project" @click="$emit('edit-project', project);"> 
-        <div class="canvas-collaborator-submenu-delete">
-          <i class="icon-trash" @click.stop="$emit('delete-project');"></i>
-        </div>
-        <div>
-          <i v-if="openTabs.includes(project._id)" :class="'icon-mini-arrow-down'" @click.stop="$emit('toggle', project);"></i>
-          <i v-else :class="'icon-mini-arrow-right'" @click.stop="$emit('toggle', project);"></i>
-          <b>{{project.name}}</b>
-        </div>
-      </div>
-
-      <div v-if="openTabs.includes(project._id)">
-        <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new canvas-collaborator-menu-item-todo" @click="$emit('new-todo');">
-          <i class="icon-add"></i>
-          New To Do 
-        </div>
-        <div v-for="(todo, x) in project.loadedTodos" :key="x">
-          <todo-item 
-            v-if="settings.showResolved || (!settings.showResolved && !checkResolvedTodoPage(todo, pageType, pageId))"
-            :todo="todo" 
-            :settings="settings"
-            :open-tabs="openTabs"
-            @edit-todo="$emit('edit-todo', todo);" 
-            @resolve-todo="$emit('resolve-todo', todo);" 
-            @unresolve-todo="$emit('unresolve-todo', todo);" 
-            @delete-todo="$emit('delete-todo', todo);"
-            @toggle="$emit('toggle', $event);"
-            @load-comments="loadComments(todo);"
-            @new-comment="$emit('new-comment', $event);"
-            @delete-comment="$emit('delete-comment', $event);"
-          >
-          </todo-item>
-        </div>
-      </div>
-    </div>
-    `,
-  data: function() {
-    return {
-      rMainURL: /^\/courses\/([0-9]+)/,
-      rPagesURL: /^\/courses\/([0-9]+)\/([a-z]+)\/(.+?)(\/|$|\?)/,
-      showMenu: false,
-      pageType: '',
-      pageId: ''
-    }
-  },
-  props: [
-    'project',
-    'todos',
-    'collapsed',
-    'openTabs',
-    'settings'
-  ],
-  created: function() {
-    if (this.rPagesURL.test(window.location.pathname)) {
-      //page specific menu
-      let pieces = window.location.pathname.match(this.rPagesURL);
-      this.courseId = parseInt(pieces[1]);
-      this.pageType = pieces[2];
-      this.pageId = pieces[3];
-      //await self.getSavedSettings();
-    } else if (this.rMainURL.test(window.location.pathname)) {
-      //not in a specific page
-      let pieces = window.location.pathname.match(this.rMainURL);
-      this.courseId = parseInt(pieces[1]);
-      //await self.getSavedSettings();
-    }
-
-  },
-  methods: {
-    toggle: async function(obj) {
-      obj.collapsed = !obj.collapsed;
-    },
-    checkResolvedTodoPage(todo, pageType, pageId) {
-      for (let p = 0; p < todo.pages.length; p++) {
-        let page = todo.pages[p];
-        if (page.pageType === this.pageType && page.pageId === this.pageId) {
-          return true;
-        }
-      }
-      return false;
-    }
-  }
-});
-//<i class="icon-trash"></i>
 Vue.component('todo-item', {
   template: `
   <div>
-    <div v-bind:class="{'canvas-collaborator-menu-item-assigned': isAssigned}" class="canvas-collaborator-menu-item canvas-collaborator-menu-item-todo" @click="$emit('edit-todo');">
+    <div 
+      v-bind:class="{'canvas-collaborator-menu-item-assigned': isAssigned}" 
+      class="canvas-collaborator-menu-item canvas-collaborator-menu-item-todo" 
+      @click="$emit('edit-todo');"
+      :style="{
+        'margin-left': ((level) * 20) + 'px',
+        'width': '100% - ' + ((level) * 20) + 'px'
+      }"
+     >
       <div class="canvas-collaborator-submenu-delete">
         <i class="icon-trash" @click.stop="$emit('delete-todo');"></i>
       </div>
       <div>
         <i v-if="openTabs.includes(todo._id)" :class="'icon-mini-arrow-down'" @click.stop="$emit('toggle', todo)"></i>
         <i v-else :class="'icon-mini-arrow-right'" @click.stop="$emit('toggle', todo)"></i>
-        <i v-if="checkResolvedTodoPage(todo)" class="icon-publish icon-Solid" @click.stop="$emit('unresolve-todo');"></i>
-        <i v-else class="icon-publish" @click.stop="$emit('resolve-todo');"></i>
+        <i v-if="checkResolvedTodoPage(todo)" class="icon-publish icon-Solid" @click.stop="$emit('unresolve-todo', todo);"></i>
+        <i v-else class="icon-publish" @click.stop="$emit('resolve-todo', todo);"></i>
         {{todo.name}}
       </div>
     </div>
     <div v-if="openTabs.includes(todo._id)">
-      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new canvas-collaborator-menu-item-new-comment" @click="$emit('new-comment', todo);">
+      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new" 
+        :style="{
+          'margin-left': ((level + 1) * 20) + 'px',
+          'width': '100% - ' + ((level + 1) * 20) + 'px'
+        }"
+        @click="$emit('new-todo', todo);"
+      >
+        <i class="icon-add"></i>
+        New To Do 
+      </div>
+      <div v-for="todoChild in todos">
+        <todo-item
+          v-if="(todoChild.parentId === todo._id && (todo.pageTypes.includes(pageType) || pageType === '') && (todo.pageId === pageId || todo.pageId === ''))"
+          :todo="todoChild"
+          :todos="todos"
+          :settings="settings"
+          :open-tabs="openTabs"
+          :level="level + 1"
+          @open-tabs="$emit('open-tabs');"
+          @toggle="$emit('toggle', $event);"
+          @new-todo="$emit('new-todo', $event);"
+          @edit-todo="$emit('edit-todo', $event);"
+          @delete-todo="$emit('delete-todo', $event);"
+          @resolve-todo="$emit('resolve-todo', $event);"
+          @unresolve-todo="$emit('unresolve-todo', $event);"
+          @new-comment="$emit('new-comment', $event);"
+          @delete-comment="$emit('delete-comment', $event);"
+        >
+        
+      </div>
+      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new"
+        :style="{
+          'margin-left': ((level + 1) * 20) + 'px',
+          'width': '100% - ' + ((level + 1) * 20) + 'px'
+        }" 
+        @click="$emit('new-comment', todo);"
+      >
         <i class="icon-add"></i>
         New Comment 
       </div>
@@ -131,7 +87,6 @@ Vue.component('todo-item', {
       this.courseId = parseInt(pieces[1]);
       //await self.getSavedSettings();
     }
-
   },
   computed: {
     isAssigned: function() {
@@ -152,8 +107,11 @@ Vue.component('todo-item', {
   },
   props: [
     'todo',
+    'todos',
     'project',
-    'openTabs'
+    'openTabs',
+    'settings',
+    'level'
   ],
   methods: {
     checkResolvedTodoPage(todo, pageType, pageId) {

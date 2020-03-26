@@ -22,7 +22,8 @@ APP = new Vue({
     this.canvasPages = await this.API.getCoursePages(this.courseId);
     this.canvasAssignments = await this.API.getCourseAssignments(this.courseId);
     */
-    await this.loadProjects();
+    await this.loadTodos();
+    //await this.loadProjects();
     for (let i = 0; i < this.projectMembers.length; i++) {
       let userId = this.projectMembers[i];
       this.loadUserName(userId);
@@ -44,28 +45,24 @@ APP = new Vue({
       modal: '',
       userNames: {},
       userId: ENV.current_user_id,
-      menuCurrent: "projects",
-      currentProject: null,
+      menuCurrent: "main",
       rMainURL: /^\/courses\/([0-9]+)/,
       rPagesURL: /^\/courses\/([0-9]+)\/([a-z]+)\/(.+?)(\/|$|\?)/,
       API: COLLABORATOR_API_FUNCTIONS,
       SETTINGS: COLLABORATOR_SETTINGS_FUNCTIONS, 
       pageType: '',
       pageId: '',
-      header: 'projects',
+      header: 'To Dos',
       menuItems: [],
-      loadedProjects: [],
+      todos: [],
       pageTypes: { 
         quizzes: 'quizzes',
         assignments: 'assignments',
         pages: 'pages'
       },
       modalObject: {},
-      newProjectName: '',
-      modalTodoProject: {},
       newTodoName: '',
       newTodoPageTypes: [],
-      newTodoProject: '',
       projectTags: [],
       newTodoAssignments: [],
       newCommentText: '',
@@ -81,74 +78,27 @@ APP = new Vue({
     }
   },
   methods: {
-    goto: function(menuName) {
+    goto(menuName) {
       this.menuCurrent = menuName;
       this.menuItems = this.menus[menuName];
       this.header = menuName;
     },
-    loadProjects: async function() {
-      let projects = await this.API.getProjects(this.courseId);
-      for (let p in projects) {
-        let project = projects[p];
-        if (project.tags === undefined) {
-          project['tags'] = {};
-        }
-      }
-      this.updateProjectList(projects);
-    },
-    updateProjectList(projects) {
-      for (let p = 0; p < projects.length; p++) {
-        let project = projects[p];
-        this.updateProjectInList(project);
-      }
-    },
-    updateProjectInList(project) {
-      let exists = false;
-      for (let i =0; i < this.loadedProjects.length; i++) {
-        let checkProject = this.loadedProjects[i];
-        if (checkProject._id === project._id) {
-          for (let key in project) {
-            this.$set(checkProject, key, project[key]);
-          }
-          exists = true;
-        }
-      }
-      //might be able to get rid of this, because we're no longer adding additional variable of collapsed, so we can read straight from the projects variable
-      if (exists === false) {
-        project.loadedTodos = [];
-        this.loadedProjects.push(project);
-        this.setProjectTodos(project);
-      }
-    },
-    async createProject() {
-      let project = await this.API.createProject(this.courseId, this.newProjectName);
-      this.updateProjectInList(project);
-    },
-    async updateProject(project) {
-      //possible base this off of modal object
-      let updatePackage = {
-        name: project.name,
-      };
-      await this.API.updateProject(project._id, updatePackage);
-    },
-    async deleteProject(project) {
-      await this.API.deleteProject(project._id);
-      //remove project from list
-      for (let i =0; i < this.loadedProjects.length; i++) {
-        let checkProject = this.loadedProjects[i];
-        if (project._id === checkProject._id) {
-          this.loadedProjects.splice(i, 1);
-          break;
-        }
-      }
-    },
-    async setProjectTodos(project) {
-      let todos = await this.getTodos(project);
-      for (let t = 0; t < todos.length; t++) {
+    async loadTodos() {
+      let todos = await this.API.getTodosCourse(this.courseId);
+      for (let t in todos) {
         let todo = todos[t];
-        todo['loadedComments'] = [];
+        todo['todos'] = [];
+        if (todos.tags === undefined || todo.tags === null) {
+          todo['tags'] = {};
+        }
+        if (todo.pageTypes === undefined || todo.pageTypes === null) {
+          todo['pageTypes'] = [];
+        }
+        this.calcTodoProgress(todo);
+        this.loadComments(todo);
+        console.log(todo);
       }
-      this.$set(project, 'loadedTodos', todos);
+      this.todos = todos;
     },
     async getTodos() {
       let todos;
@@ -174,16 +124,20 @@ APP = new Vue({
     },
     async createTodo(todoData) {
       let pageId = '';
+      todoData.parentId = '';
+      if (this.modalObject._id !== undefined) {
+        todoData.parentId = this.modalObject._id;
+      }
       if (todoData.pageSpecific) {
         pageId = this.pageId; 
         todoData.pageTypes = [this.pageType];
       }
-      let todo = await this.API.createTodo(todoData.projectId, todoData.name, todoData.pageTypes, todoData.assignments, pageId);
+      let todo = await this.API.createTodo(this.courseId, todoData.name, todoData.parentId, todoData.pageTypes, todoData.assignments, pageId);
       todo.loadedComments = [];
-      for (let i =0; i < this.loadedProjects.length; i++) {
-        let project = this.loadedProjects[i];
-        if (todoData.projectId === project._id) {
-          project.loadedTodos.push(todo);
+      for (let i =0; i < this.todos.length; i++) {
+        let todo = this.todos[i];
+        if (todoData.parentId === todo._id) {
+          todo.todos.push(todo);
           break;
         }
       }
@@ -248,6 +202,7 @@ APP = new Vue({
     },
     async deleteTodo(todo) {
       //some kind of check to make sure this worked
+      /*
       for (let p = 0; p < this.loadedProjects.length; p++) {
         let project = this.loadedProjects[p];
         if (project._id === todo.projectId) {
@@ -261,6 +216,7 @@ APP = new Vue({
           break;
         }
       }
+      */
       await this.API.deleteTodo(todo._id);
     },
     async loadUserName(userId) {
@@ -313,7 +269,7 @@ APP = new Vue({
       }
       this.API.saveSettingCourse(this.userId, this.courseId, 'openTabs', this.openTabs);
     },
-    openModal(name, modalObject) {
+    openModal(name, modalObject={}) {
       this.modal=name;
       this.modalObject = modalObject;
       if (name === 'edit-todo') {

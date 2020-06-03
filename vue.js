@@ -87,8 +87,7 @@ APP = new Vue({
       let todos = await this.API.getTodosCourse(this.courseId);
       for (let t in todos) {
         let todo = todos[t];
-        todo['todos'] = [];
-        if (todos.tags === undefined || todo.tags === null) {
+        if (todo.tags === undefined || todo.tags === null) {
           todo['tags'] = {};
         }
         if (todo.pageTypes === undefined || todo.pageTypes === null) {
@@ -133,14 +132,14 @@ APP = new Vue({
         todoData.pageTypes = [this.pageType];
       }
       let todo = await this.API.createTodo(this.courseId, todoData.name, todoData.parentId, todoData.pageTypes, todoData.assignments, pageId);
-      todo.loadedComments = [];
-      for (let i =0; i < this.todos.length; i++) {
-        let todo = this.todos[i];
-        if (todoData.parentId === todo._id) {
-          todo.todos.push(todo);
-          break;
-        }
+      if (todo.tags === undefined || todo.tags === null) {
+        todo['tags'] = {};
       }
+      if (todo.pageTypes === undefined || todo.pageTypes === null) {
+        todo['pageTypes'] = [];
+      }
+      todo.loadedComments = [];
+      this.todos.push(todo);
     },
     async updateTodo(todo) {
       //possible base this off of modal object
@@ -202,21 +201,12 @@ APP = new Vue({
     },
     async deleteTodo(todo) {
       //some kind of check to make sure this worked
-      /*
-      for (let p = 0; p < this.loadedProjects.length; p++) {
-        let project = this.loadedProjects[p];
-        if (project._id === todo.projectId) {
-          let todos = project.loadedTodos;
-          for (let t = 0; t < todos.length; t++) {
-            if (todos[t]._id === todo._id) {
-              todos.splice(t, 1);
-              break;
-            }
-          }
+      for (let t = 0; t < this.todos.length; t++) {
+        if (this.todos[t]._id === todo._id) {
+          this.todos.splice(t, 1);
           break;
         }
       }
-      */
       await this.API.deleteTodo(todo._id);
     },
     async loadUserName(userId) {

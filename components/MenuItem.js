@@ -9,12 +9,12 @@ Vue.component('todo-item', {
       class="canvas-collaborator-menu-item canvas-collaborator-menu-item-todo" 
       @click="$emit('edit-todo');"
       :style="{
-        'margin-left': ((level) * 20) + 'px',
-        'width': '100% - ' + ((level) * 20) + 'px'
+        'margin-left': (level * 20) + 'px',
+        'width': '100% - ' + (level * 20) + 'px'
       }"
      >
       <div class="canvas-collaborator-submenu-delete">
-        <i class="icon-trash" @click.stop="$emit('delete-todo');"></i>
+        <i class="icon-trash" @click.stop="$emit('delete-todo', todo);"></i>
       </div>
       <div>
         <i v-if="openTabs.includes(todo._id)" :class="'icon-mini-arrow-down'" @click.stop="$emit('toggle', todo)"></i>

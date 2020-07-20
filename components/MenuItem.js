@@ -15,6 +15,7 @@ Vue.component('todo-item', {
      >
       <div class="canvas-collaborator-submenu-delete">
         <i class="icon-trash" @click.stop="$emit('delete-todo', todo);"></i>
+        <i class="icon-add" @click.stop="$emit('new-todo', todo);"></i>
       </div>
       <div>
         <i v-if="openTabs.includes(todo._id)" :class="'icon-mini-arrow-down'" @click.stop="$emit('toggle', todo)"></i>
@@ -25,16 +26,6 @@ Vue.component('todo-item', {
       </div>
     </div>
     <div v-if="openTabs.includes(todo._id)">
-      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new" 
-        :style="{
-          'margin-left': ((level + 1) * 20) + 'px',
-          'width': '100% - ' + ((level + 1) * 20) + 'px'
-        }"
-        @click="$emit('new-todo', todo);"
-      >
-        <i class="icon-add"></i>
-        New To Do 
-      </div>
       <div v-for="todoChild in todos">
         <todo-item
           v-if="(todoChild.parentId === todo._id && (todo.pageTypes.includes(pageType) || pageType === '') && (todo.pageId === pageId || todo.pageId === ''))"

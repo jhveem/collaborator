@@ -1,4 +1,7 @@
 const ANNOTATOR = {
+  genId() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  },
 
   nextNode(node) {
     if (node.hasChildNodes()) {
@@ -55,6 +58,7 @@ const ANNOTATOR = {
       "style",
       "background-color: yellow; display: inline;"
     );
+    newNode.classList.add('')
     range.surroundContents(newNode);
   },
 
@@ -124,8 +128,9 @@ const ANNOTATOR = {
   highlightSelection() {
     var userSelection = window.getSelection().getRangeAt(0);
     var safeRanges = ANNOTATOR.getSafeRanges(userSelection);
+    let classId = ANNOTATOR.genId();
     for (var i = 0; i < safeRanges.length; i++) {
-      ANNOTATOR.highlightRange(safeRanges[i]);
+      ANNOTATOR.highlightRange(safeRanges[i], classId);
     }
   }
 }

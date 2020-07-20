@@ -112,9 +112,11 @@ const ANNOTATOR = {
   rangeFromRangeData(rangeData) {
     let range = document.createRange();
     let startNode = ANNOTATOR.getElementByXpath(rangeData.startContainer);
+    console.log(rangeData.startContainer);
     console.log(startNode);
     let endNode = ANNOTATOR.getElementByXpath(rangeData.endContainer);
-    console.log(endNote);
+    console.log(rangeData.endContainer);
+    console.log(endNode);
     range.setStart(startNode, rangeData.startOffset);
     range.setEnd(endNode, rangeData.endOffset);
     return range;

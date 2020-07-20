@@ -105,13 +105,16 @@ const ANNOTATOR = {
     data.start = range.startOffset;
     data.end = range.endOffset;
     data.startContainer = ANNOTATOR.getPathTo(range.startContainer);
+    console.log(data.startContainer);
     data.endContainer = ANNOTATOR.getPathTo(range.endContainer);
+    console.log(data.endContainer);
     return data;
   },
 
   rangeFromRangeData(rangeData) {
     let range = document.createRange();
     let startNode = ANNOTATOR.getElementByXpath(rangeData.startContainer);
+    if (startNode.)
     console.log(rangeData.startContainer);
     console.log(startNode);
     let endNode = ANNOTATOR.getElementByXpath(rangeData.endContainer);

@@ -4,7 +4,7 @@ const ANNOTATOR = {
   },
 
   getPathTo(element) {
-    if (element.id !== '')
+    if (element.id !== '' && element.id !== undefined)
       return 'id("' + element.id + '")';
     if (element === document.body)
       return element.tagName;

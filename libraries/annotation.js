@@ -160,6 +160,7 @@ const ANNOTATOR = {
     console.log(endNode);
     range.setStart(startNode, rangeData.startOffset);
     range.setEnd(endNode, rangeData.endOffset);
+    console.log(range);
     return range;
   },
 

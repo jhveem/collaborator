@@ -2,7 +2,7 @@
   <div id="vue-app">
     <div>
       <i class="icon-settings canvas-collaborator-menu-item-icon" @click="openModal('settings');"></i>
-      <i class="icon-add canvas-collaborator-menu-item-icon" @click="openModal('new-todo');">
+      <i class="icon-add canvas-collaborator-menu-item-icon" @click="openModal('new-todo');"></i>
         <h3 class="collaborator-menu-header">{{header}}</h3>
     </div>
     <div v-if="menuCurrent ==='main'">

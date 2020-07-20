@@ -27,6 +27,11 @@ const ANNOTATOR = {
       for (var i = 0; i < s.length; i++) {
         var xs = document.createRange();
         if (i) {
+          let start = s[i - 1];
+          let end = s[i].lastChild;
+          console.log("TEST");
+          console.log(start);
+          console.log(end);
           xs.setStartAfter(s[i - 1]);
           xs.setEndAfter(s[i].lastChild);
         } else {

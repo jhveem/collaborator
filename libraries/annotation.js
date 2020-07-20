@@ -105,8 +105,8 @@ const ANNOTATOR = {
     let data = {};
     data.start = range.startOffset;
     data.end = range.endOffset;
-    data.startContainer = ANNOTATOR.getElementByXpath(range.startContaienr);
-    data.endContainer = ANNOTATOR.getElementByXpath(range.endContaienr);
+    data.startContainer = ANNOTATOR.getPathTo(range.startContaienr);
+    data.endContainer = ANNOTATOR.getPathTo(range.endContaienr);
 
     console.log(data);
     return data;
@@ -114,8 +114,10 @@ const ANNOTATOR = {
 
   rangeFromRangeData(rangeData) {
     let range = document.createRange();
-    range.setStart(range.startContainer, range.startOffset);
-    range.setEnd(range.endContainer, range.endOffset);
+    let startNode = ANNOTATOR.getElementByXpath(range.startContainer);
+    let endNode = ANNOTATOR.getElementByXpath(range.endContainer);
+    range.setStart(startNode, range.startOffset);
+    range.setEnd(endNode, range.endOffset);
     return range;
   },
 

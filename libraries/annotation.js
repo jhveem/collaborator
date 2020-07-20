@@ -139,8 +139,8 @@ const ANNOTATOR = {
 
   genSaveableRange(range) {
     let data = {};
-    data.start = range.startOffset;
-    data.end = range.endOffset;
+    data.startOffset = range.startOffset;
+    data.endOffset = range.endOffset;
     data.startContainer = ANNOTATOR.getPathTo(range.startContainer);
     data.endContainer = ANNOTATOR.getPathTo(range.endContainer);
     return data;

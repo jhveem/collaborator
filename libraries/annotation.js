@@ -32,7 +32,6 @@ const ANNOTATOR = {
       "background-color: " + color + "; display: inline;"
     );
     newNode.classList.add(className);
-    console.log(range);
     range.surroundContents(newNode);
   },
 
@@ -105,18 +104,17 @@ const ANNOTATOR = {
     let data = {};
     data.start = range.startOffset;
     data.end = range.endOffset;
-    console.log(range.start)
     data.startContainer = ANNOTATOR.getPathTo(range.startContainer);
     data.endContainer = ANNOTATOR.getPathTo(range.endContainer);
-
-    console.log(data);
     return data;
   },
 
   rangeFromRangeData(rangeData) {
     let range = document.createRange();
     let startNode = ANNOTATOR.getElementByXpath(rangeData.startContainer);
+    console.log(startNode);
     let endNode = ANNOTATOR.getElementByXpath(rangeData.endContainer);
+    console.log(endNote);
     range.setStart(startNode, rangeData.startOffset);
     range.setEnd(endNode, rangeData.endOffset);
     return range;

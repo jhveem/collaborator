@@ -43,7 +43,7 @@ const ANNOTATOR = {
     if (window.getSelection) {
       var sel = window.getSelection();
       if (!sel.isCollapsed) {
-        return getRangeSelectedNodes(sel.getRangeAt(0));
+        return ANNOTATOR.getRangeSelectedNodes(sel.getRangeAt(0));
       }
     }
     return [];

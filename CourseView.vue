@@ -1,7 +1,7 @@
 <template>
   <div id="vue-app">
     <div>
-      <i class="icon-settings canvas-collaborator-menu-item-icon" @click="openModal('settings');"></i>
+      <i class="icon-settings canvas-collaborator-menu-item-icon" style="margin-right: 20px;" @click="openModal('settings');"></i>
       <i class="icon-add canvas-collaborator-menu-item-icon" @click="openModal('new-todo');"></i>
         <h3 class="collaborator-menu-header">{{header}}</h3>
     </div>

@@ -105,8 +105,9 @@ const ANNOTATOR = {
     let data = {};
     data.start = range.startOffset;
     data.end = range.endOffset;
-    data.startContainer = ANNOTATOR.getPathTo(range.startContaienr);
-    data.endContainer = ANNOTATOR.getPathTo(range.endContaienr);
+    console.log(range.start)
+    data.startContainer = ANNOTATOR.getPathTo(range.startContainer);
+    data.endContainer = ANNOTATOR.getPathTo(range.endContainer);
 
     console.log(data);
     return data;

@@ -114,10 +114,10 @@ const ANNOTATOR = {
 
   rangeFromRangeData(rangeData) {
     let range = document.createRange();
-    let startNode = ANNOTATOR.getElementByXpath(range.startContainer);
-    let endNode = ANNOTATOR.getElementByXpath(range.endContainer);
-    range.setStart(startNode, range.startOffset);
-    range.setEnd(endNode, range.endOffset);
+    let startNode = ANNOTATOR.getElementByXpath(rangeData.startContainer);
+    let endNode = ANNOTATOR.getElementByXpath(rangeData.endContainer);
+    range.setStart(startNode, rangeData.startOffset);
+    range.setEnd(endNode, rangeData.endOffset);
     return range;
   },
 
@@ -128,6 +128,8 @@ const ANNOTATOR = {
     for (var i = 0; i < safeRanges.length; i++) {
       let range = safeRanges[i];
       if (range.toString() !== "" && range.toString().match(/\w+/g) !== null) {
+        console.log("BEGIN RANGE DATA");
+        console.log(range);
         let rangeData = ANNOTATOR.genSaveableRange(range);
         let eRange = ANNOTATOR.rangeFromRangeData(rangeData);
         ANNOTATOR.highlightRange(eRange, classId, "#F66");

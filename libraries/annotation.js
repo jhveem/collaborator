@@ -141,19 +141,21 @@ const ANNOTATOR = {
     let data = {};
     data.start = range.startOffset;
     data.end = range.endOffset;
-    console.log(data.startContainer);
     data.startContainer = ANNOTATOR.getPathTo(range.startContainer);
-    console.log(data.endContainer);
+    console.log(data.startContainer);
     data.endContainer = ANNOTATOR.getPathTo(range.endContainer);
+    console.log(data.endContainer);
     return data;
   },
 
   rangeFromRangeData(rangeData) {
     let range = document.createRange();
     let startNode = ANNOTATOR.getElementByXpath(rangeData.startContainer);
+    if (startNode.nodeName == "#text") startNode = startNode.parentNode;
     console.log(rangeData.startContainer);
     console.log(startNode);
     let endNode = ANNOTATOR.getElementByXpath(rangeData.endContainer);
+    if (endNode.nodeName == "#text") endNode = endNode.parentNode;
     console.log(rangeData.endContainer);
     console.log(endNode);
     range.setStart(startNode, rangeData.startOffset);

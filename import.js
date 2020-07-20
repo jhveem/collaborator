@@ -36,6 +36,7 @@ async function _init() {
 
   //IMPORT EVERYTHING
   //Look into moving all of the libraries local that are hosted elsewhere
+  $.getScript("https://jhveem.xyz/collaborator/libraries/annotation.js");
   $.getScript("https://cdn.jsdelivr.net/npm/vue").done(function () {
     $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery.selection/1.0.1/jquery.selection.min.js").done(function () {
       $.getScript("https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js").done(function () {

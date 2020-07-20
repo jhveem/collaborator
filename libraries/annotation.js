@@ -123,9 +123,9 @@ const ANNOTATOR = {
 
   highlightSelection() {
     var userSelection = window.getSelection().getRangeAt(0);
-    var safeRanges = getSafeRanges(userSelection);
+    var safeRanges = ANNOTATOR.getSafeRanges(userSelection);
     for (var i = 0; i < safeRanges.length; i++) {
-      highlightRange(safeRanges[i]);
+      ANNOTATOR.highlightRange(safeRanges[i]);
     }
   }
 }

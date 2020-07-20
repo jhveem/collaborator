@@ -20,6 +20,10 @@ const ANNOTATOR = {
     }
   },
 
+  getElementByXpath(path) {
+    return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+  },
+
   highlightRange(range, classId, color) {
     let className = 'canvas-collaborator-highlight-id-' + classId;
     var newNode = document.createElement("div");
@@ -46,13 +50,6 @@ const ANNOTATOR = {
         if (i) {
           let start = s[i - 1];
           let end = s[i].lastChild;
-          console.log("TEST");
-          console.log("START");
-          console.log(start);
-          console.log(ANNOTATOR.getPathTo(start));
-          console.log("END");
-          console.log(end);
-          console.log(ANNOTATOR.getPathTo(end));
           xs.setStartAfter(s[i - 1]);
           xs.setEndAfter(s[i].lastChild);
         } else {
@@ -111,6 +108,7 @@ const ANNOTATOR = {
     for (var i = 0; i < safeRanges.length; i++) {
       let range = safeRanges[i];
       if (range.toString() !== "" && range.toString().match(/\w+/g) !== null) {
+        console.log(range);
         ANNOTATOR.highlightRange(safeRanges[i], classId, "#F66");
       }
     }

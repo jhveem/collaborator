@@ -14,8 +14,9 @@ Vue.component('todo-item', {
       }"
      >
       <div class="canvas-collaborator-submenu-delete">
-        <i class="icon-trash" @click.stop="$emit('delete-todo', todo);"></i>
+        <i class="fa-comment-o" @click.stop="$emit('new-comment', todo);"></i>
         <i class="icon-add" @click.stop="$emit('new-todo', todo);"></i>
+        <i class="icon-trash" @click.stop="$emit('delete-todo', todo);"></i>
       </div>
       <div>
         <i v-if="openTabs.includes(todo._id)" :class="'icon-mini-arrow-down'" @click.stop="$emit('toggle', todo)"></i>
@@ -45,16 +46,6 @@ Vue.component('todo-item', {
           @delete-comment="$emit('delete-comment', $event);"
         >
         
-      </div>
-      <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-new"
-        :style="{
-          'margin-left': ((level + 1) * 20) + 'px',
-          'width': '100% - ' + ((level + 1) * 20) + 'px'
-        }" 
-        @click="$emit('new-comment', todo);"
-      >
-        <i class="icon-add"></i>
-        New Comment 
       </div>
       <div class="canvas-collaborator-menu-item canvas-collaborator-menu-item-border canvas-collaborator-menu-item-comment" v-for="(comment, x) in todo.loadedComments">
         <comment-item :todo="todo" :comment="comment"

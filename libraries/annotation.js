@@ -109,6 +109,13 @@ const ANNOTATOR = {
       let range = safeRanges[i];
       if (range.toString() !== "" && range.toString().match(/\w+/g) !== null) {
         console.log(range);
+        console.log("START");
+        console.log(range.startOffset);
+        console.log(range.startContainer);
+        console.log("END");
+        console.log(range.endOffset);
+        console.log(range.endContainer);
+
         ANNOTATOR.highlightRange(safeRanges[i], classId, "#F66");
       }
     }

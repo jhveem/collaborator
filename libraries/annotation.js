@@ -115,10 +115,10 @@ const ANNOTATOR = {
     let data = {};
     data.start = range.startOffset;
     data.end = range.endOffset;
-    data.startContainer = ANNOTATOR.getPathTo(range.startContainer);
     console.log(data.startContainer);
-    data.endContainer = ANNOTATOR.getPathTo(range.endContainer);
+    data.startContainer = ANNOTATOR.getPathTo(range.startContainer);
     console.log(data.endContainer);
+    data.endContainer = ANNOTATOR.getPathTo(range.endContainer);
     return data;
   },
 

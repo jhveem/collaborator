@@ -1,3 +1,5 @@
+//Some way of getting the whole element for those elements where the whole thing is highlighted.
+//fix the xpath to jump straight to the #wiki_page_show element and only tracking stuff from there.
 const ANNOTATOR = {
   genId() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);

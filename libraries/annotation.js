@@ -26,7 +26,7 @@ const ANNOTATOR = {
     // Iterate nodes until we hit the end container
     var rangeNodes = [];
     while (node && node != endNode) {
-      rangeNodes.push(node = nextNode(node));
+      rangeNodes.push(node = ANNOTATOR.nextNode(node));
     }
 
     // Add partially selected nodes at the start of the range

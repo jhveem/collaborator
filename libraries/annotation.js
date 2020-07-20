@@ -131,6 +131,7 @@ const ANNOTATOR = {
     var safeRanges = ANNOTATOR.getSafeRanges(userSelection);
     let classId = ANNOTATOR.genId();
     for (var i = 0; i < safeRanges.length; i++) {
+      let range = safeRanges[i];
       if (range.toString() !== "" && range.toString().match(/\w+/g) !== null) {
         ANNOTATOR.highlightRange(safeRanges[i], classId, "#F66");
       }

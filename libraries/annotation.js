@@ -57,7 +57,7 @@ const ANNOTATOR = {
     var newNode = document.createElement("div");
     newNode.setAttribute(
       "style",
-      "background-color: "+color+"; display: inline;"
+      "background-color: " + color + "; display: inline;"
     );
     newNode.classList.add(className);
     range.surroundContents(newNode);
@@ -131,7 +131,9 @@ const ANNOTATOR = {
     var safeRanges = ANNOTATOR.getSafeRanges(userSelection);
     let classId = ANNOTATOR.genId();
     for (var i = 0; i < safeRanges.length; i++) {
-      ANNOTATOR.highlightRange(safeRanges[i], classId, "#F66");
+      if (range.toString() !== "" && range.toString().match(/\w+/g) !== null) {
+        ANNOTATOR.highlightRange(safeRanges[i], classId, "#F66");
+      }
     }
   }
 }

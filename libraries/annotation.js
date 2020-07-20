@@ -52,13 +52,14 @@ const ANNOTATOR = {
     return [];
   },
 
-  highlightRange(range) {
+  highlightRange(range, classId, color) {
+    let className = 'canvas-collaborator-highlight-id-' + classId;
     var newNode = document.createElement("div");
     newNode.setAttribute(
       "style",
-      "background-color: yellow; display: inline;"
+      "background-color: "+color+"; display: inline;"
     );
-    newNode.classList.add('')
+    newNode.classList.add(className);
     range.surroundContents(newNode);
   },
 
@@ -130,7 +131,7 @@ const ANNOTATOR = {
     var safeRanges = ANNOTATOR.getSafeRanges(userSelection);
     let classId = ANNOTATOR.genId();
     for (var i = 0; i < safeRanges.length; i++) {
-      ANNOTATOR.highlightRange(safeRanges[i], classId);
+      ANNOTATOR.highlightRange(safeRanges[i], classId, "#F66");
     }
   }
 }

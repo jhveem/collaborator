@@ -3,6 +3,23 @@ const ANNOTATOR = {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
   },
 
+  getPathTo(element) {
+    if (element.id !== '')
+      return 'id("' + element.id + '")';
+    if (element === document.body)
+      return element.tagName;
+
+    var ix = 0;
+    var siblings = element.parentNode.childNodes;
+    for (var i = 0; i < siblings.length; i++) {
+      var sibling = siblings[i];
+      if (sibling === element)
+        return ANNOTATOR.getPathTo(element.parentNode) + '/' + element.tagName + '[' + (ix + 1) + ']';
+      if (sibling.nodeType === 1 && sibling.tagName === element.tagName)
+        ix++;
+    }
+  },
+
   highlightRange(range, classId, color) {
     let className = 'canvas-collaborator-highlight-id-' + classId;
     var newNode = document.createElement("div");
@@ -30,8 +47,12 @@ const ANNOTATOR = {
           let start = s[i - 1];
           let end = s[i].lastChild;
           console.log("TEST");
+          console.log("START");
           console.log(start);
+          console.log(ANNOTATOR.getPathTo(start));
+          console.log("END");
           console.log(end);
+          console.log(ANNOTATOR.getPathTo(end));
           xs.setStartAfter(s[i - 1]);
           xs.setEndAfter(s[i].lastChild);
         } else {

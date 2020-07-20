@@ -14,7 +14,7 @@ Vue.component('todo-item', {
       }"
      >
       <div class="canvas-collaborator-submenu-delete">
-        <i class="far fa-comment-o" @click.stop="$emit('new-comment', todo);"></i>
+        <i class="far fa-comment" @click.stop="$emit('new-comment', todo);"></i>
         <i class="icon-add" @click.stop="$emit('new-todo', todo);"></i>
         <i class="icon-trash" @click.stop="$emit('delete-todo', todo);"></i>
       </div>
